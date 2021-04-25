@@ -16,4 +16,9 @@ public class InventoryService {
 	public void saveAll(List<Article> articles) {
 		repo.saveAll(articles);
 	}
+
+	public Article findOne(int id) {
+		Article a = repo.findById(id).orElse(null);
+		return a;
+	}
 }

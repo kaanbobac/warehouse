@@ -1,6 +1,7 @@
 package kaan.demo.warehouse.service;
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kaan.demo.warehouse.dto.InventoryDto;
 import kaan.demo.warehouse.dto.JsonDto;
+import kaan.demo.warehouse.dto.ProductDto;
+import kaan.demo.warehouse.model.Product;
+import kaan.demo.warehouse.model.ProductArticle;
 import lombok.extern.java.Log;
 
 /**
@@ -25,14 +29,42 @@ public class DataLoader {
 	private static final String CONST_DATA_PRODUCT = "products";
 	@Autowired
 	private InventoryService inventoryService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private ProductArticleService productArticleService;
 
 	public <T> String saveDataFromJson(JsonDto params) {
 		String result = "";
 		String path = params.getPath();
 		if (params.getModel().equalsIgnoreCase(CONST_DATA_INVENTORY)) {
 			result = saveInventory(path);
+		} else if (params.getModel().equalsIgnoreCase(CONST_DATA_PRODUCT)) {
+			result = saveProduct(path);
 		}
 		return result;
+	}
+
+	private <T> String saveProduct(String path) {
+		String result;
+		TypeReference<ProductDto> typeReference = new TypeReference<ProductDto>() {
+		};
+		T parsed = parseJson(path, typeReference);
+		if (parsed == null)
+			result = "Fail";
+		else {
+			ProductDto dto = (ProductDto) parsed;
+			List<Product> products = dto.getProducts();
+			for (Product p : products) {
+				List<ProductArticle> productArticles = p.getContain_articles();
+				for (ProductArticle productArticle : productArticles) {
+					productArticle.setArticle(inventoryService.findOne(productArticle.getArt_id()));
+					productArticleService.saveOne(productArticle);
+				}
+			}
+			productService.saveAll(products);
+		}
+		return "OK";
 	}
 
 	private <T> String saveInventory(String path) {
