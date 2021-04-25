@@ -1,0 +1,14 @@
+{
+  "myObjectArray": [
+    {
+      "id": "1",
+      "field_string": "xxx",
+      "field_int": "11"
+    },
+    {
+      "id": "2",
+      "field_string": "yyy",
+      "field_int": "12"
+    }
+  ]
+}
