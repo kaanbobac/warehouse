@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import kaan.demo.warehouse.dto.InventoryDto;
+import kaan.demo.warehouse.dto.InventoryJsonDto;
 import kaan.demo.warehouse.model.Article;
 
 public class InventoryLoaderTest {
@@ -39,15 +39,15 @@ public class InventoryLoaderTest {
 	@Test
 	public <T> void parse_inventory_success_ten_inventory() {
 		boolean result = true;
-		InventoryDto dto;
+		InventoryJsonDto dto;
 		List<Article> actual = new ArrayList<>();
-		TypeReference<InventoryDto> typeReference = new TypeReference<InventoryDto>() {
+		TypeReference<InventoryJsonDto> typeReference = new TypeReference<InventoryJsonDto>() {
 		};
 		T parsed = dataLoader.parseJson(path_ten, typeReference);
 		if (parsed == null)
 			result = false;
 		else {
-			dto = (InventoryDto) parsed;
+			dto = (InventoryJsonDto) parsed;
 			actual = dto.getInventory();
 		}
 		for (int i = 0; i < expectation_ten.size(); i++) {
@@ -61,15 +61,15 @@ public class InventoryLoaderTest {
 	@Test
 	public <T> void parse_inventory_success_one_inventory() {
 		boolean result = true;
-		InventoryDto dto;
+		InventoryJsonDto dto;
 		List<Article> actual = new ArrayList<>();
-		TypeReference<InventoryDto> typeReference = new TypeReference<InventoryDto>() {
+		TypeReference<InventoryJsonDto> typeReference = new TypeReference<InventoryJsonDto>() {
 		};
 		T parsed = dataLoader.parseJson(path_one, typeReference);
 		if (parsed == null)
 			result = false;
 		else {
-			dto = (InventoryDto) parsed;
+			dto = (InventoryJsonDto) parsed;
 			actual = dto.getInventory();
 		}
 		for (int i = 0; i < expectation_one.size(); i++) {
@@ -83,15 +83,15 @@ public class InventoryLoaderTest {
 	@Test
 	public <T> void parse_inventory_success_zero_inventory() {
 		boolean result = true;
-		InventoryDto dto;
+		InventoryJsonDto dto;
 		List<Article> actual = new ArrayList<>();
-		TypeReference<InventoryDto> typeReference = new TypeReference<InventoryDto>() {
+		TypeReference<InventoryJsonDto> typeReference = new TypeReference<InventoryJsonDto>() {
 		};
 		T parsed = dataLoader.parseJson(path_ten, typeReference);
 		if (parsed == null)
 			result = false;
 		else {
-			dto = (InventoryDto) parsed;
+			dto = (InventoryJsonDto) parsed;
 			actual = dto.getInventory();
 		}
 		if (actual.size() == 0)

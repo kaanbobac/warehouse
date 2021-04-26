@@ -10,8 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -38,4 +40,18 @@ public class ProductArticle {
 	private Integer amount_of;
 	@Transient
 	private Integer art_id;
+	@Getter(AccessLevel.NONE)
+	@Transient
+	private int quantity;
+
+	public void calculateQuantity() {
+		if (article == null)
+			quantity = 0;
+		quantity = article.getStock() / amount_of;
+	}
+
+	public int getQuantity() {
+		calculateQuantity();
+		return quantity;
+	}
 }
