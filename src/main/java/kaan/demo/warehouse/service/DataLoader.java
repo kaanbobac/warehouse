@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kaan.demo.warehouse.dto.JsonDto;
-import kaan.demo.warehouse.dto.ProductJsonDto;
 import kaan.demo.warehouse.model.InventoryWrapper;
 import kaan.demo.warehouse.model.Product;
 import kaan.demo.warehouse.model.ProductArticle;
+import kaan.demo.warehouse.model.ProductWrapper;
 import lombok.extern.java.Log;
 
 /**
@@ -35,11 +36,15 @@ public class DataLoader {
 	private ProductService productService;
 	@Autowired
 	private ProductArticleService productArticleService;
+	@Value("${app.data.inventory.json.path}")
+	private String pathInventory;
+	@Value("${app.data.product.json.path}")
+	private String pathProduct;
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void initDatabase() {
-		saveInventory("/json/inventory.json");
-		saveProduct("/json/products.json");
+		saveInventory(pathInventory);
+		saveProduct(pathProduct);
 	}
 
 	public <T> String saveDataFromJson(JsonDto params) {
@@ -55,14 +60,14 @@ public class DataLoader {
 
 	private <T> String saveProduct(String path) {
 		String result;
-		TypeReference<ProductJsonDto> typeReference = new TypeReference<ProductJsonDto>() {
+		TypeReference<ProductWrapper> typeReference = new TypeReference<ProductWrapper>() {
 		};
 		T parsed = parseJson(path, typeReference);
 		if (parsed == null)
 			result = "Fail";
 		else {
-			ProductJsonDto dto = (ProductJsonDto) parsed;
-			List<Product> products = dto.getProducts();
+			ProductWrapper wrapper = (ProductWrapper) parsed;
+			List<Product> products = wrapper.getProducts();
 			for (Product p : products) {
 				List<ProductArticle> productArticles = p.getContain_articles();
 				for (ProductArticle productArticle : productArticles) {
