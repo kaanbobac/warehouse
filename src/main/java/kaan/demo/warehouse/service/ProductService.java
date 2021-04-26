@@ -7,10 +7,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kaan.demo.warehouse.dto.ProductJsonDto;
 import kaan.demo.warehouse.model.Article;
 import kaan.demo.warehouse.model.Product;
 import kaan.demo.warehouse.model.ProductArticle;
-import kaan.demo.warehouse.model.ProductWrapper;
 import kaan.demo.warehouse.repo.InventoryRepository;
 import kaan.demo.warehouse.repo.ProductRepository;
 
@@ -25,7 +25,7 @@ public class ProductService {
 		productRepo.saveAll(products);
 	}
 
-	public List<ProductWrapper> sellProduct(int id) {
+	public List<ProductJsonDto> sellProduct(int id) {
 		updateInventory(id);
 		productRepo.delete(productRepo.findById(id).orElse(null));
 		return queryAll();
@@ -41,17 +41,17 @@ public class ProductService {
 		}
 	}
 
-	public List<ProductWrapper> queryAll() {
+	public List<ProductJsonDto> queryAll() {
 		List<Product> products = (List<Product>) productRepo.findAll();
-		List<ProductWrapper> dto = new ArrayList<>();
+		List<ProductJsonDto> dto = new ArrayList<>();
 		for (Product p : products) {
 			dto.add(convertToDto(p));
 		}
 		return dto;
 	}
 
-	private ProductWrapper convertToDto(Product product) {
+	private ProductJsonDto convertToDto(Product product) {
 		ModelMapper mapper = new ModelMapper();
-		return mapper.map(product, ProductWrapper.class);
+		return mapper.map(product, ProductJsonDto.class);
 	}
 }
