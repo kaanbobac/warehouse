@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kaan.demo.warehouse.dto.InventoryJsonDto;
 import kaan.demo.warehouse.dto.JsonDto;
 import kaan.demo.warehouse.dto.ProductJsonDto;
+import kaan.demo.warehouse.model.InventoryWrapper;
 import kaan.demo.warehouse.model.Product;
 import kaan.demo.warehouse.model.ProductArticle;
 import lombok.extern.java.Log;
@@ -77,13 +77,13 @@ public class DataLoader {
 
 	private <T> String saveInventory(String path) {
 		String result;
-		TypeReference<InventoryJsonDto> typeReference = new TypeReference<InventoryJsonDto>() {
+		TypeReference<InventoryWrapper> typeReference = new TypeReference<InventoryWrapper>() {
 		};
 		T parsed = parseJson(path, typeReference);
 		if (parsed == null)
 			result = "Fail";
 		else {
-			InventoryJsonDto dto = (InventoryJsonDto) parsed;
+			InventoryWrapper dto = (InventoryWrapper) parsed;
 			inventoryService.saveAll(dto.getInventory());
 			result = "Success";
 		}
