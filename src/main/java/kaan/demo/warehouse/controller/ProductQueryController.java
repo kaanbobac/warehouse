@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kaan.demo.warehouse.service.ProductService;
 
@@ -16,5 +18,10 @@ public class ProductQueryController {
 	@GetMapping("/query-all")
 	public ResponseEntity queryAllProducts() {
 		return new ResponseEntity<>(productService.queryAll(), HttpStatus.OK);
+	}
+
+	@PostMapping("/sell-product")
+	public ResponseEntity sellProduct(@RequestParam Integer id) {
+		return new ResponseEntity<>(productService.sellProduct(id), HttpStatus.OK);
 	}
 }

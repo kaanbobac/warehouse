@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -33,6 +35,12 @@ public class DataLoader {
 	private ProductService productService;
 	@Autowired
 	private ProductArticleService productArticleService;
+
+	@EventListener(ApplicationReadyEvent.class)
+	public void initDatabase() {
+		saveInventory("/json/inventory.json");
+		saveProduct("/json/products.json");
+	}
 
 	public <T> String saveDataFromJson(JsonDto params) {
 		String result = "";
