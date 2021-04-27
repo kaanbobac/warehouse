@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kaan.demo.warehouse.dto.JsonDto;
+import kaan.demo.warehouse.model.Article;
 import kaan.demo.warehouse.model.InventoryWrapper;
 import kaan.demo.warehouse.model.Product;
 import kaan.demo.warehouse.model.ProductArticle;
@@ -68,14 +69,18 @@ public class DataLoader {
 		else {
 			ProductWrapper wrapper = (ProductWrapper) parsed;
 			List<Product> products = wrapper.getProducts();
-			for (Product p : products) {
+			OUTER_LOOP: for (Product p : products) {
 				List<ProductArticle> productArticles = p.getContain_articles();
 				for (ProductArticle productArticle : productArticles) {
+					Article article = inventoryService.findOne(productArticle.getArt_id());
+					if (article == null) {
+						break OUTER_LOOP;
+					}
 					productArticle.setArticle(inventoryService.findOne(productArticle.getArt_id()));
 					productArticleService.saveOne(productArticle);
 				}
+				productService.save(p);
 			}
-			productService.saveAll(products);
 		}
 		return "OK";
 	}

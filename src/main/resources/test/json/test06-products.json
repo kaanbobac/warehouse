@@ -1,0 +1,21 @@
+{
+  "products": [
+    {
+      "name": "Dining Chair",
+      "contain_articles": [
+        {
+          "art_id": "11",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "12",
+          "amount_of": "8"
+        },
+        {
+          "art_id": "13",
+          "amount_of": "1"
+        }
+      ]
+    }
+  ]
+}

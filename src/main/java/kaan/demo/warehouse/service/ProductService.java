@@ -25,6 +25,10 @@ public class ProductService {
 		productRepo.saveAll(products);
 	}
 
+	public void save(Product product) {
+		productRepo.save(product);
+	}
+
 	public List<ProductJsonDto> sellProduct(int id) {
 		updateInventory(id);
 		productRepo.delete(productRepo.findById(id).orElse(null));
