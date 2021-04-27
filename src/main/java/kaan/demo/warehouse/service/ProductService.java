@@ -31,7 +31,6 @@ public class ProductService {
 
 	public List<ProductJsonDto> sellProduct(int id) {
 		updateInventory(id);
-		productRepo.delete(productRepo.findById(id).orElse(null));
 		return queryAll();
 	}
 
