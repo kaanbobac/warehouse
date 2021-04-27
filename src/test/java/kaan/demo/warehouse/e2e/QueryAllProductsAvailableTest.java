@@ -14,9 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import kaan.demo.warehouse.dto.ProductJsonDto;
 import kaan.demo.warehouse.model.Product;
 import kaan.demo.warehouse.repo.ProductRepository;
@@ -24,7 +21,7 @@ import kaan.demo.warehouse.repo.ProductRepository;
 @SpringBootTest(properties = { "app.data.inventory.json.path=/test/json/test04-inventory.json",
 		"app.data.product.json.path=/test/json/test04-products.json" })
 @AutoConfigureMockMvc
-public class QueryAllProductsAvailableTest {
+public class QueryAllProductsAvailableTest extends BaseTest {
 	@Autowired
 	private MockMvc mvc;
 	private static List<ProductJsonDto> products = new ArrayList<>();
@@ -44,17 +41,11 @@ public class QueryAllProductsAvailableTest {
 			} else if (name.equals("Dining Table")) {
 				product.setQuantity(3);
 			} else if (name.equals("New Product")) {
-				product.setQuantity(0);
+				product.setQuantity(1);
 			}
 			products.add(product);
 		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			jsonResponse = objectMapper.writeValueAsString(products);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		jsonResponse = toJsonProduct(products);
 	}
 
 	@Test
