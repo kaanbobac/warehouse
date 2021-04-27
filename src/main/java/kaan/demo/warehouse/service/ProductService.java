@@ -34,6 +34,11 @@ public class ProductService {
 		return queryAll();
 	}
 
+	/**
+	 * After a product is sold, this method updates inventory
+	 * 
+	 * @param id of the product
+	 */
 	private void updateInventory(int id) {
 		Product removingProduct = productRepo.findById(id).orElse(null);
 		List<ProductArticle> removingProductArticle = removingProduct.getContain_articles();

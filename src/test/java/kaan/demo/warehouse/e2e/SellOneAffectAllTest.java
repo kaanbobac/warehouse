@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -51,6 +52,7 @@ public class SellOneAffectAllTest extends BaseTest {
 		jsonResponse = toJsonProduct(products);
 	}
 
+	@DisplayName("Sell One Product All Others Will be Affected")
 	@Test
 	public void sellOne() throws Exception {
 		init();

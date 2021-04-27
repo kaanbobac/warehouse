@@ -17,8 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Product Article Entity as median between Article and Product Table Please
- * check ReadMe file for database relation
+ * Product Article Entity as median between Article and Product Table
  * 
  * @author Kaan Bobac
  *

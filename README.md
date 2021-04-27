@@ -87,6 +87,7 @@ This API is used for query all products in the system with quantites.
  
  ####  Sell Product
 This API is used to remove a product. Once a product is removed, corrsponding articles will be also reduced in inventory stocks. After e calculation, API returns new product list
+
 `POST /sell-product/`
 
     http://localhost:8080/sell-product?id=XXX

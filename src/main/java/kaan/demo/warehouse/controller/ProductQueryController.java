@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kaan.demo.warehouse.service.ProductService;
 
+/**
+ * Controller class for API End Points
+ * 
+ * @author Kaan Bobac
+ *
+ */
 @Controller
 public class ProductQueryController {
 	@Autowired
