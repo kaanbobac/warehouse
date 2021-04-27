@@ -20,6 +20,6 @@ public class ProductSellTest {
 	public void sellProduct() {
 		List<ProductJsonDto> productAll = productService.queryAll();
 		List<ProductJsonDto> products = productService.sellProduct(productAll.get(0).getId());
-		assertEquals(products.size(), 2);
+		assertEquals(products.size(), 3);
 	}
 }
